@@ -18,12 +18,11 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 def initializeNewFact(self, old_fact):
-    f = self.parent.deck.newFact()
-    f.tags = self.parent.deck.lastTags
+    f = _old(self, old_fact)
     #f[u'起こり'] = old_fact[u'起こり']
     return f
 
 #Setup our hook
 if not __name__ == "__main__":
-    AddCards.initializeNewFact = initializeNewFact
+    AddCards.initializeNewFact = wrap(AddCards.initializeNewFact, initializeNewFact, "around")
 
