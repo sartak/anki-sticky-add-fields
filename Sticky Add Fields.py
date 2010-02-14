@@ -26,6 +26,7 @@ def initializeNewFact(self, old_fact):
 from anki.utils import stripHTML, parseTags
 from anki.sound import clearAudioQueue
 from ankiqt import ui
+from anki.errors import *
 def clearOldFact(self, old_fact):
     f = self.initializeNewFact(old_fact)
     self.editor.setFact(f, check=True, scroll=True)
