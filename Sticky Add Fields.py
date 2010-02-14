@@ -20,6 +20,7 @@ from PyQt4.QtCore import *
 def initializeNewFact(self, old_fact):
     f = self.parent.deck.newFact()
     f.tags = self.parent.deck.lastTags
+    #f[u'起こり'] = old_fact[u'起こり']
     return f
 
 # more copy and paste that will die once I have an Anki with my refactorings
