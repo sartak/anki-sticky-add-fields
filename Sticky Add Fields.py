@@ -22,6 +22,10 @@ def initializeNewFact(self, old_fact):
     f.tags = self.parent.deck.lastTags
     return f
 
+# more copy and paste that will die once I have an Anki with my refactorings
+from anki.utils import stripHTML, parseTags
+from anki.sound import clearAudioQueue
+from ankiqt import ui
 def clearOldFact(self, old_fact):
     f = self.initializeNewFact(old_fact)
     self.editor.setFact(f, check=True, scroll=True)
@@ -29,8 +33,6 @@ def clearOldFact(self, old_fact):
     self.editor.tags.addTags(parseTags(self.parent.deck.lastTags))
     return f
 
-from anki.utils import stripHTML, parseTags
-from anki.sound import clearAudioQueue
 def addCards(self):
     # make sure updated
     self.editor.saveFieldsNow()
@@ -73,6 +75,7 @@ question or answer on all cards."""), parent=self)
 
 #Setup our hook
 if not __name__ == "__main__":
+    AddCards.initializeNewFact = initializeNewFact
     AddCards.clearOldFact = clearOldFact
     AddCards.addCards = addCards
 
