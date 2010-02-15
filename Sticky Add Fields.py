@@ -16,6 +16,7 @@ Shawn M Moore (sartak@gmail.com)
 from ankiqt.ui.addcards import AddCards
 from ankiqt.ui.facteditor import FactEditor
 from anki.hooks import wrap
+from anki.utils import tidyHTML
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -23,15 +24,21 @@ from PyQt4.QtCore import *
 def initializeNewFact(self, old_fact, **kw):
     f = kw['_old'](self, old_fact)
 
-    for field_name, checkbox in self.editor.checkboxes.items():
+    editor = self.editor
+
+    for field_name, checkbox in editor.checkboxes.items():
         if checkbox.isChecked():
             f[field_name] = old_fact[field_name]
+            editor.sticky_value[field_name] = f[field_name]
+        elif field_name in editor.sticky_value:
+            del editor.sticky_value[field_name]
 
     return f
 
 # for FactEditor:
-def addCheckBoxAttr(self, field, n):
+def addAdditionalAttrs(self, field, n):
     self.checkboxes = {}
+    self.sticky_value = {}
 
 def addCheckBox(self, field, n):
     if self.addMode:
@@ -40,9 +47,18 @@ def addCheckBox(self, field, n):
         self.checkboxes[field.name] = c
         self.fieldsGrid.addWidget(c, n, 2)
 
+def fieldsAreBlank(self):
+    for (field, widget) in self.fields.values():
+        value = tidyHTML(unicode(widget.toHtml()))
+        if (self.addMode and value != self.sticky_value.get(field.name, '')):
+            if value:
+                return False
+    return True
+
 #Setup our hooks
 if not __name__ == "__main__":
     AddCards.initializeNewFact = wrap(AddCards.initializeNewFact, initializeNewFact, "around")
-    FactEditor.drawFields = wrap(FactEditor.drawFields, addCheckBoxAttr, "before")
+    FactEditor.drawFields = wrap(FactEditor.drawFields, addAdditionalAttrs, "before")
     FactEditor.drawField = wrap(FactEditor.drawField, addCheckBox, "after")
+    FactEditor.fieldsAreBlank = fieldsAreBlank
 
