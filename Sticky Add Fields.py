@@ -56,7 +56,7 @@ def fieldsAreBlank(self):
     return True
 
 #Setup our hooks
-if not __name__ == "__main__":
+if __name__ != '__main__':
     AddCards.initializeNewFact = wrap(AddCards.initializeNewFact, initializeNewFact, "around")
     FactEditor.drawFields = wrap(FactEditor.drawFields, addAdditionalAttrs, "before")
     FactEditor.drawField = wrap(FactEditor.drawField, addCheckBox, "after")
