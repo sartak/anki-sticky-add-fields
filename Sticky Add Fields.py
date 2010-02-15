@@ -18,8 +18,8 @@ from anki.hooks import wrap
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-def initializeNewFact(self, old_fact):
-    f = _old(self, old_fact)
+def initializeNewFact(self, old_fact, **kw):
+    f = kw['_old'](self, old_fact)
     #f[u'起こり'] = old_fact[u'起こり']
     return f
 
