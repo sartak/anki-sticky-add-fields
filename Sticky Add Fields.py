@@ -9,6 +9,9 @@ I personally use this for adding a few sentences from the same place,
 to avoid having to type/paste the same URL or title into my "Source"
 field multiple times.
 
+See http://sartak.org/misc/anki-add.png for this plugin and
+"Add Suspended" in action.
+
 AUTHOR:
 Shawn M Moore (sartak@gmail.com)
 """
